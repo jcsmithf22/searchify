@@ -1,4 +1,6 @@
 class SearchesController < ApplicationController
+  SEARCH_ATTRIBUTES = [ :name, :notes, :query, :category_ids, :buying_options, :conditions, :minimum, :maximum, :search_in_description ].freeze
+
   before_action :set_search, only: %i[ show edit update destroy ]
   before_action :set_pins, only: %i[ index new show edit ]
 
@@ -8,7 +10,8 @@ class SearchesController < ApplicationController
   end
 
   def new
-    @search = Current.user.searches.new
+    @search = Current.user.searches.new(prefill_params)
+    @back_path = execute_path(search: prefill_params.to_h) if prefill_params.present?
   end
 
   def show
@@ -50,6 +53,10 @@ class SearchesController < ApplicationController
   end
 
   def search_params
-    params.expect(search: [ :name, :notes, :query, :category_ids, :buying_options, :conditions, :minimum, :maximum, :search_in_description ])
+    params.expect(search: SEARCH_ATTRIBUTES)
+  end
+
+  def prefill_params
+    params.fetch(:search, {}).permit(SEARCH_ATTRIBUTES).compact_blank
   end
 end

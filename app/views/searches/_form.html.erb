@@ -12,7 +12,7 @@
       <%= form.text_field :query, placeholder: random_book_title, class: "empty tall" %>
     </div>
 
-    <div class="padding searches__filter-fieldset vstack bordered-block-end">
+    <div class="padding searches__filter-fieldset vstack <%= "bordered-block-end" if search.persisted? %>">
       <div class="searches__filter-field">
         <%= form.label :category_ids, "Category" %>
         <%= form.select :category_ids, Search.category_options_for_select, include_blank: "All categories" %>
@@ -50,19 +50,17 @@
       </div>
     </div>
 
-    <div class="padding">
-      <div class="hstack gap-half">
-        <% if search.persisted? %>
+    <% if search.persisted? %>
+      <div class="padding">
+        <div class="hstack gap-half">
           <span class="badge <%= search.published? && "primary" %>"><%= search.status %></span>
-        <% else %>
-          <span class="badge">New</span>
-        <% end %>
+        </div>
       </div>
-    </div>
+    <% end %>
   </div>
 
   <div class="searches__toolbar bordered margin-block-start-double">
-    <%= link_to search.persisted? ? search_path(search) : searches_path, class: "btn btn-ghost bordered-inline-end square", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
+    <%= link_to local_assigns[:back_path] || (search.persisted? ? search_path(search) : searches_path), class: "btn btn-ghost bordered-inline-end square", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="32"

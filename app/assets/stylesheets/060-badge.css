@@ -11,7 +11,7 @@
   text-transform: uppercase;
   font-size: var(--font-small);
   font-weight: var(--font-weight-bold);
-  letter-spacing: 0.1ch;
+  letter-spacing: 0.05ch;
   border-radius: var(--small-radius);
   text-decoration: none;
   line-height: 1.3;
@@ -33,6 +33,11 @@
 
   &.information {
     --badge-background: var(--color-blue);
+  }
+
+  &.plain {
+    text-transform: none;
+    letter-spacing: normal;
   }
 
   & > * {

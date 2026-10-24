@@ -1,0 +1,29 @@
+<%= turbo_frame_tag "results" do %>
+  <% if results.present? %>
+    <div class="searches__results margin-block-start-double">
+      <div class="searches__results-header hstack space-between aligned-center margin-block-end">
+        <p class="searches__results-count">
+          <%= results.length %>
+          <%= "result".pluralize(results.length) %>
+          <% if total > results.length %>
+            <span class="searches__results-total">of <%= total %></span>
+          <% end %>
+        </p>
+        <% if total >= 50 %>
+          <p class="searches__results-notice">Try adding filters to narrow your search</p>
+        <% end %>
+      </div>
+
+      <div class="vstack gap">
+        <%= render partial: "searches/execute/result", collection: results %>
+      </div>
+    </div>
+  <% elsif results %>
+    <div class="searches__empty padding-block-double margin-block-start-double">
+      <div class="vstack gap-half centered aligned-center">
+        <p class="searches__empty-message">No results found.</p>
+        <p class="text-small text-faint">Try a different query or loosen your filters.</p>
+      </div>
+    </div>
+  <% end %>
+<% end %>

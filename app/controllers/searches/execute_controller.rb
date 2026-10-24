@@ -6,9 +6,7 @@ class Searches::ExecuteController < ApplicationController
   def show
     @search = Current.user.searches.new(search_params.compact_blank)
 
-    if @search.valid?
-      execute_search
-    end
+    execute_search if @search.query.present?
   end
 
   def existing
@@ -25,6 +23,6 @@ class Searches::ExecuteController < ApplicationController
   end
 
   def search_params
-    params.expect(search: [ :name, :notes, :query, :category_ids, :buying_options, :conditions, :minimum, :maximum, :search_in_description, :search_or_save ])
+    params.expect(search: [ :name, :notes, :query, :category_ids, :buying_options, :conditions, :minimum, :maximum, :search_in_description ])
   end
 end

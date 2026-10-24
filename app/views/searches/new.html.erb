@@ -4,6 +4,6 @@
   <% end %>
 </div>
 
-<%= render "searches/form", search: @search %>
+<%= render "searches/form", search: @search, back_path: @back_path %>
 
 <%= turbo_frame_tag "results" %>
